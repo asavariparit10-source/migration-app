@@ -1,15 +1,6 @@
-terraform {
-  required_version = ">= 1.5"
-
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 5.0"
-    }
-  }
-}
 
 # VPC
+
 
 resource "aws_vpc" "dr_vpc" {
   cidr_block           = var.vpc_cidr
@@ -104,29 +95,22 @@ resource "aws_route_table_association" "public_assoc" {
 
 resource "aws_security_group" "terraform_sg" {
   name        = "terraform-demo-sg"
-  description = "Terraform Demo Security Group"
+  description = "Terraform Demo SG"
   vpc_id      = aws_vpc.dr_vpc.id
 
   ingress {
     description = "SSH"
-
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-
-    cidr_blocks = [
-      "0.0.0.0/0"
-    ]
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-
-    cidr_blocks = [
-      "0.0.0.0/0"
-    ]
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   tags = {
