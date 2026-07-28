@@ -9,9 +9,9 @@ terraform {
   }
 }
 
-########################################
+
 # VPC
-########################################
+
 
 resource "aws_vpc" "dr_vpc" {
   cidr_block           = var.vpc_cidr
@@ -23,9 +23,9 @@ resource "aws_vpc" "dr_vpc" {
   }
 }
 
-########################################
+
 # Internet Gateway
-########################################
+
 
 resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.dr_vpc.id
@@ -35,9 +35,9 @@ resource "aws_internet_gateway" "igw" {
   }
 }
 
-########################################
+
 # Public Subnet
-########################################
+
 
 resource "aws_subnet" "public" {
   vpc_id                  = aws_vpc.dr_vpc.id
@@ -50,9 +50,9 @@ resource "aws_subnet" "public" {
   }
 }
 
-########################################
+
 # Private Subnet 1
-########################################
+
 
 resource "aws_subnet" "private1" {
   vpc_id            = aws_vpc.dr_vpc.id
@@ -64,9 +64,9 @@ resource "aws_subnet" "private1" {
   }
 }
 
-########################################
+
 # Private Subnet 2
-########################################
+
 
 resource "aws_subnet" "private2" {
   vpc_id            = aws_vpc.dr_vpc.id
@@ -78,9 +78,9 @@ resource "aws_subnet" "private2" {
   }
 }
 
-########################################
+
 # Public Route Table
-########################################
+
 
 resource "aws_route_table" "public_rt" {
   vpc_id = aws_vpc.dr_vpc.id
@@ -100,9 +100,9 @@ resource "aws_route_table_association" "public_assoc" {
   route_table_id = aws_route_table.public_rt.id
 }
 
-########################################
+
 # Security Group
-########################################
+
 
 resource "aws_security_group" "terraform_sg" {
   name        = "terraform-demo-sg"
