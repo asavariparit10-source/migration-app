@@ -1,9 +1,10 @@
-variable "aws_region" {
-  description = "AWS Region"
-  type        = string
-}
+terraform {
+  required_version = ">= 1.5"
 
-variable "vpc_cidr" {
-  description = "VPC CIDR Block"
-  type        = string
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
+    }
+  }
 }
