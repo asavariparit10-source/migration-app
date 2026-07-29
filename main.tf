@@ -12,9 +12,7 @@ resource "aws_vpc" "dr_vpc" {
   }
 }
 
-
 # Internet Gateway
-
 
 resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.dr_vpc.id
