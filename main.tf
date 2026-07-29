@@ -115,3 +115,40 @@ resource "aws_security_group" "terraform_sg" {
     Name = "Terraform-SG"
   }
 }
+
+# Get Latest Amazon Linux 2023 AMI
+
+
+data "aws_ami" "amazon_linux" {
+
+  most_recent = true
+
+  owners = ["amazon"]
+
+  filter {
+    name   = "name"
+    values = ["al2023-ami-*-x86_64"]
+  }
+}
+
+
+# EC2 Instance
+
+
+resource "aws_instance" "dr_ec2" {
+
+  ami           = data.aws_ami.amazon_linux.id
+  instance_type = "t2.micro"
+
+  subnet_id = aws_subnet.public.id
+
+  vpc_security_group_ids = [
+    aws_security_group.terraform_sg.id
+  ]
+
+  associate_public_ip_address = true
+
+  tags = {
+    Name = "Fly91-DR-EC2"
+  }
+}
