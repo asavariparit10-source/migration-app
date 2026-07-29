@@ -1,6 +1,4 @@
-
 # VPC
-
 
 resource "aws_vpc" "dr_vpc" {
   cidr_block           = var.vpc_cidr
@@ -22,9 +20,7 @@ resource "aws_internet_gateway" "igw" {
   }
 }
 
-
 # Public Subnet
-
 
 resource "aws_subnet" "public" {
   vpc_id                  = aws_vpc.dr_vpc.id
@@ -37,9 +33,7 @@ resource "aws_subnet" "public" {
   }
 }
 
-
 # Private Subnet 1
-
 
 resource "aws_subnet" "private1" {
   vpc_id            = aws_vpc.dr_vpc.id
@@ -51,9 +45,7 @@ resource "aws_subnet" "private1" {
   }
 }
 
-
 # Private Subnet 2
-
 
 resource "aws_subnet" "private2" {
   vpc_id            = aws_vpc.dr_vpc.id
@@ -65,9 +57,7 @@ resource "aws_subnet" "private2" {
   }
 }
 
-
 # Public Route Table
-
 
 resource "aws_route_table" "public_rt" {
   vpc_id = aws_vpc.dr_vpc.id
@@ -87,9 +77,7 @@ resource "aws_route_table_association" "public_assoc" {
   route_table_id = aws_route_table.public_rt.id
 }
 
-
 # Security Group
-
 
 resource "aws_security_group" "terraform_sg" {
   name        = "terraform-demo-sg"
@@ -116,11 +104,9 @@ resource "aws_security_group" "terraform_sg" {
   }
 }
 
-# Get Latest Amazon Linux 2023 AMI
-
+# Latest Amazon Linux AMI
 
 data "aws_ami" "amazon_linux" {
-
   most_recent = true
 
   owners = ["amazon"]
@@ -131,20 +117,13 @@ data "aws_ami" "amazon_linux" {
   }
 }
 
-
 # EC2 Instance
 
-
 resource "aws_instance" "dr_ec2" {
-
-  ami           = data.aws_ami.amazon_linux.id
-  instance_type = "t2.micro"
-
-  subnet_id = aws_subnet.public.id
-
-  vpc_security_group_ids = [
-    aws_security_group.terraform_sg.id
-  ]
+  ami                    = data.aws_ami.amazon_linux.id
+  instance_type          = "t2.micro"
+  subnet_id              = aws_subnet.public.id
+  vpc_security_group_ids = [aws_security_group.terraform_sg.id]
 
   associate_public_ip_address = true
 
